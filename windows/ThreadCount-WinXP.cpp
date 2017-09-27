@@ -1,3 +1,6 @@
+// This advice is specific to AMD processors and is not general guidance for all processor manufacturers.
+//
+// GetLogicalProcessorInformation requires WinXP or later
 // based on https://msdn.microsoft.com/en-us/library/windows/desktop/ms683194(v=vs.85).aspx
 
 #include <intrin.h>
@@ -58,15 +61,23 @@ int getCpuidFamily() {
 	return displayFamily;
 }
 
+// This advice is specific to AMD processors and is
+// not general guidance for all processor
+// manufacturers. Remember to profile!
 DWORD getDefaultThreadCount() {
 	DWORD cores, logical;
 	getProcessorCount(cores, logical);
-	DWORD count = cores;
+	DWORD count = logical;
 	char vendor[13];
 	getCpuidVendor(vendor);
-	if ((0 == strcmp(vendor, "AuthenticAMD")) && (0x15 == getCpuidFamily())) {
-		// AMD "Bulldozer" family microarchitecture
-		count = logical;
+	if (0 == strcmp(vendor, "AuthenticAMD")) {
+		if (0x15 == getCpuidFamily()) {
+			// AMD "Bulldozer" family microarchitecture
+			count = logical;
+		}
+		else {
+			count = cores;
+		}
 	}
 	return count;
 }
