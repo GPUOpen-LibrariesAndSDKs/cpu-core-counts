@@ -3,6 +3,8 @@
 // GetLogicalProcessorInformationEx requires Win7 or later
 // based on https://msdn.microsoft.com/en-us/library/windows/desktop/dd405488(v=vs.85).aspx
 
+#define _WIN32_WINNT 0x0601
+
 #include <stdio.h>
 #include <intrin.h>
 #include <windows.h>
