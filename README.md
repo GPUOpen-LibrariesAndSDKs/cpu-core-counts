@@ -6,7 +6,7 @@ These self-contained code samples show you how to correctly detect physical and 
 
 - [x] Windows XP
 - [x] Windows 7
-- [ ] Windows 10
+- [x] Windows 10
 
 ## Support and suggestions
 
