@@ -70,17 +70,7 @@ DWORD getDefaultThreadCount() {
 	DWORD cores, logical;
 	getProcessorCount(cores, logical);
 	DWORD count = logical;
-	char vendor[13];
-	getCpuidVendor(vendor);
-	if (0 == strcmp(vendor, "AuthenticAMD")) {
-		if (0x15 == getCpuidFamily()) {
-			// AMD "Bulldozer" family microarchitecture
-			count = logical;
-		}
-		else {
-			count = cores;
-		}
-	}
+
 	return count;
 }
 
