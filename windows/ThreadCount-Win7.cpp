@@ -73,8 +73,10 @@ DWORD getDefaultThreadCount() {
 	char vendor[13];
 	getCpuidVendor(vendor);
 	if (0 == strcmp(vendor, "AuthenticAMD")) {
-		if (0x15 == getCpuidFamily()) {
-			// AMD "Bulldozer" family microarchitecture
+		if (0x15 <= getCpuidFamily()) {
+			// AMD "Bulldozer" family microarchitecture or newer
+			// Jaguar does not have SMT, and Zen SMT is no worse than Bulldozer
+			// MAINTAINER: remember to update if SMT ever gets bad!
 			count = logical;
 		}
 		else {
@@ -92,8 +94,8 @@ int main(int argc, char* argv[]) {
 
 	DWORD cores, logical;
 	getProcessorCount(cores, logical);
-	if ((0 == strcmp(vendor, "AuthenticAMD")) && (0x15 == getCpuidFamily())) {
-		// AMD "Bulldozer" family microarchitecture
+	if ((0 == strcmp(vendor, "AuthenticAMD")) && (0x15 <= getCpuidFamily())) {
+		// AMD "Bulldozer" family microarchitecture or newer
 		printf("Processor Module Count: %u\n", logical / 2);
 		printf("Processor Core Count: %u\n", logical);
 	}
